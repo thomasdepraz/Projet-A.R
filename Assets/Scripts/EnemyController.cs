@@ -4,20 +4,46 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public TestController controller;
+    public Vector3 playerPos;
+    public bool canMove;
+    public float speed;
+    public Rigidbody enemyRgb;
+
+
+
     void Start()
     {
-        
+        controller = GameObject.FindWithTag("Controller").GetComponent<TestController>();
+        enemyRgb = GetComponent<Rigidbody>();
+        canMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        playerPos = controller.FirstPersonCamera.transform.position;
+
+        if (canMove == true)
+        {
+            Movement(playerPos - transform.position);
+        }
+
     }
 
-    public void Movement(Vector3 targetPos, float speed)
+    public void Movement(Vector3 targetPos)
     {
+        enemyRgb.velocity = targetPos.normalized * speed * Time.fixedDeltaTime;
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        canMove = false;
+        enemyRgb.velocity = new Vector3(0, 0, 0);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        canMove = true;
     }
 }
