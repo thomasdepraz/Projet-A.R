@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using GoogleARCore;
 using GoogleARCore.Examples.Common;
 using UnityEngine;
@@ -21,10 +22,6 @@ public class TestController : MonoBehaviour
     /// </summary>
     public GameObject GameObjectHorizontalPlanePrefab;
 
-    /// <summary>
-    /// A prefab to place when a raycast from a user touch hits a feature point.
-    /// </summary>
-    public GameObject GameObjectPointPrefab;
 
     /// <summary>
     /// The rotation in degrees need to apply to prefab when it is placed.
@@ -44,7 +41,8 @@ public class TestController : MonoBehaviour
     private bool groundCreated = false;
     public GameObject virtualWorldRoot;
     private Anchor virtualWorldAnchor; 
-    private PhysicsRaycaster raycast; 
+    private TrackableHit hitResult;
+    private TrackableHitFlags filter;
 
     // Start is called before the first frame update
     void Start()
@@ -57,25 +55,72 @@ public class TestController : MonoBehaviour
     {
         _UpdateApplicationLifecycle();
 
-        //FindGround();
-
+        FindGround();
+        if(groundCreated)
+        {
+            StartCoroutine(CreateBatteries());
+        }
+        
     }
     
     public void FindGround()
     {
         Session.GetTrackables<DetectedPlane>(NewPlanes, TrackableQueryFilter.All);
-        if(NewPlanes.Count > 0 && !groundCreated)
+        if(!groundCreated)
         {
             virtualWorldAnchor =  NewPlanes[0].CreateAnchor(NewPlanes[0].CenterPose);
-            //config.PlaneFindingMode = DetectedPlaneFindingMode.Disabled;
             virtualWorldRoot.transform.SetParent(virtualWorldAnchor.transform);
-            Instantiate(ground, virtualWorldRoot.transform.position, Quaternion.identity); ;
             groundCreated = true;
         }
         else
         {
             return;
         }  
+    }
+
+    IEnumerator CreateBatteries()
+    {
+         TrackableHit hitResult;
+         TrackableHitFlags filter = TrackableHitFlags.PlaneWithinBounds;
+        if(Frame.Raycast(FirstPersonCamera.transform.position, FirstPersonCamera.transform.forward, out hitResult,100f, filter))
+        {
+            if(Random.Range(0f, 1f) > 0.3 && hitResult.Trackable is DetectedPlane)
+            {
+                GameObject battery;
+                if (hitResult.Trackable is DetectedPlane)
+                {
+                    DetectedPlane detectedPlane = hitResult.Trackable as DetectedPlane;
+                    if (detectedPlane.PlaneType == DetectedPlaneType.Vertical)
+                    {
+                        battery = GameObjectVerticalPlanePrefab;
+                    }
+                    else
+                    {
+                        battery = GameObjectHorizontalPlanePrefab;
+                    }
+                }
+                else
+                {
+                    battery = GameObjectHorizontalPlanePrefab;
+                }
+
+                // Instantiate prefab at the hit pose.
+                var gameObject = Instantiate(battery, hitResult.Pose.position, hitResult.Pose.rotation);
+
+                // Compensate for the hitPose rotation facing away from the raycast (i.e.
+                // camera).
+                gameObject.transform.Rotate(0, k_PrefabRotation, 0, Space.Self);
+
+                // Create an anchor to allow ARCore to track the hitpoint as understanding of
+                // the physical world evolves.
+                var anchor = hitResult.Trackable.CreateAnchor(hitResult.Pose);
+
+                // Make game object a child of the anchor.
+                gameObject.transform.parent = anchor.transform;
+            }
+        }
+        yield return new WaitForSecondsRealtime(2f);
+        StartCoroutine(CreateBatteries());
     }
     #region premade_methods
     private void _UpdateApplicationLifecycle()

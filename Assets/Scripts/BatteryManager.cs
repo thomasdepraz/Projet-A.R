@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class BatteryManager : MonoBehaviour
 {
-    public float energy; 
+    public float energy;
+    public GameObject batteryFill;
+    private BatteryFill fill;
     void Start()
     {
-        
+        fill = batteryFill.GetComponent<BatteryFill>();
     }
 
     // Update is called once per frame

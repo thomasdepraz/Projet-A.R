@@ -11,22 +11,29 @@ public class RaycastManager : MonoBehaviour
     public LayerMask Battery;
     public LayerMask Enemy;
     public RaycastHit hit;
+    public GameObject batteryFill;
+    private BatteryFill fill;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        fill = batteryFill.GetComponent<BatteryFill>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Physics.Raycast(transform.position, transform.forward,out hit, detectDistance, Battery))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, detectDistance, Battery))
         {
             hit.collider.gameObject.GetComponent<BatteryManager>().EnergyTransfer();//La charge de la batterie descend
-            //La charge du telephone augmente; 
+            fill.isCharging = true; //La charge du telephone augmente; 
+
 
             Debug.Log("La batterie se recharge");
+        }
+        else
+        {
+            fill.isCharging = false;
         }
 
         if (Physics.Raycast(transform.position, transform.forward, detectDistance, Enemy))
@@ -36,7 +43,7 @@ public class RaycastManager : MonoBehaviour
         }
         else
         {
-
+            
         }
     }
 }
