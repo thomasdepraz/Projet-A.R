@@ -30,11 +30,6 @@ public class BatteryFill : MonoBehaviour
                 StartCoroutine(EmptyBattery());
             }
         }
-        else
-        {
-            StartCoroutine(EmptyBattery());
-        }
-
     }
 
     IEnumerator FillBattery()
@@ -47,12 +42,7 @@ public class BatteryFill : MonoBehaviour
                 yield return null;
                 StartCoroutine(FillBattery());
             }
-        }
-        else
-        {
-            StartCoroutine(FillBattery());
-        }
-        
+        }       
     }
 
 

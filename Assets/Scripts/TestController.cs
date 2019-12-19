@@ -40,10 +40,13 @@ public class TestController : MonoBehaviour
     public ARCoreSessionConfig config;
     private bool groundCreated = false;
     public GameObject virtualWorldRoot;
-    private Anchor virtualWorldAnchor; 
-    private TrackableHit hitResult;
-    private TrackableHitFlags filter;
-
+    private Anchor virtualWorldAnchor;
+    TrackableHit hitResult;
+    TrackableHitFlags filter = TrackableHitFlags.PlaneWithinPolygon;
+    private float detectDistance = 10f;
+    private float distanceToCamera;
+    private bool coroutineStarted = false;
+    public GameObject battery; 
     // Start is called before the first frame update
     void Start()
     {
@@ -56,17 +59,20 @@ public class TestController : MonoBehaviour
         _UpdateApplicationLifecycle();
 
         FindGround();
-        if(groundCreated)
+        if(groundCreated && !coroutineStarted)
         {
-            StartCoroutine(CreateBatteries());
+            //StartCoroutine(CreateBatteries());
+            coroutineStarted = true;
+            StartCoroutine(CreateBattery());
+            
         }
-        
+
     }
     
     public void FindGround()
     {
         Session.GetTrackables<DetectedPlane>(NewPlanes, TrackableQueryFilter.All);
-        if(!groundCreated)
+        if(!groundCreated && NewPlanes.Count > 0)
         {
             virtualWorldAnchor =  NewPlanes[0].CreateAnchor(NewPlanes[0].CenterPose);
             virtualWorldRoot.transform.SetParent(virtualWorldAnchor.transform);
@@ -80,9 +86,8 @@ public class TestController : MonoBehaviour
 
     IEnumerator CreateBatteries()
     {
-         TrackableHit hitResult;
-         TrackableHitFlags filter = TrackableHitFlags.PlaneWithinBounds;
-        if(Frame.Raycast(FirstPersonCamera.transform.position, FirstPersonCamera.transform.forward, out hitResult,100f, filter))
+         
+        if(Frame.Raycast(FirstPersonCamera.transform.position, FirstPersonCamera.transform.forward, out hitResult, 10f, filter))
         {
             if(Random.Range(0f, 1f) > 0.3 && hitResult.Trackable is DetectedPlane)
             {
@@ -119,9 +124,38 @@ public class TestController : MonoBehaviour
                 gameObject.transform.parent = anchor.transform;
             }
         }
+        else
+        {
+            Debug.Log("Hit nothing");
+        }
         yield return new WaitForSecondsRealtime(2f);
         StartCoroutine(CreateBatteries());
     }
+
+    IEnumerator CreateBattery()
+    {
+        while(coroutineStarted)
+        {
+            for (int i = 0; i < NewPlanes.Count; i++)
+            {
+                distanceToCamera = Vector3.Distance(FirstPersonCamera.transform.position, NewPlanes[i].CenterPose.position);
+                List<Anchor> anchors = new List<Anchor>();
+                NewPlanes[i].GetAllAnchors(anchors);
+                if (distanceToCamera < 3f && Random.Range(0f, 1f) > 0.8f && anchors.Count < 2)                                                                                                                                                                           
+                {
+                    var anchor = NewPlanes[i].CreateAnchor(NewPlanes[i].CenterPose);
+                    anchor.gameObject.transform.SetParent(virtualWorldRoot.transform);
+                    GameObject gamebject = Instantiate(battery, anchor.transform);
+                }
+                anchors.Clear();
+
+            }
+            yield return new WaitForSecondsRealtime(2f);
+        }  
+    }
+        
+
+
     #region premade_methods
     private void _UpdateApplicationLifecycle()
     {
