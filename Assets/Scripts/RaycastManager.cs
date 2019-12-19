@@ -6,7 +6,8 @@ using UnityEngine.EventSystems;
 
 public class RaycastManager : MonoBehaviour
 {
-
+    public bool DontFill;
+    public bool Recharge;
     public float detectDistance;
     public LayerMask Battery;
     public LayerMask Enemy;
@@ -29,14 +30,19 @@ public class RaycastManager : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out hit, detectDistance, Battery))
         {
             hit.collider.gameObject.GetComponent<BatteryManager>().EnergyTransfer();//La charge de la batterie descend
-            fill.isCharging = true; //La charge du telephone augmente; 
-
+            Reacharge.enabled = true;
+            Recharge = true; //La charge du telephone augmente; 
+            DontFill = true;
+            
 
             Debug.Log("La batterie se recharge");
         }
         else
         {
-            fill.isCharging = false;
+            
+            DontFill = false;
+            Recharge = false;
+            Reacharge.enabled = false;
         }
 
         if (Physics.Raycast(transform.position, transform.forward, detectDistance, Enemy))
