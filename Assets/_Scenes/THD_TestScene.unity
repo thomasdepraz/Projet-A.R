@@ -448,8 +448,9 @@ MonoBehaviour:
     m_Bits: 256
   Enemy:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   batteryFill: {fileID: 1023604586}
+  enemy: {fileID: 1965903278}
 --- !u!20 &1385296138 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 20155940112608238, guid: c10877f7cd5764de18d46d7b777d1faa,
@@ -676,6 +677,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1965903278 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4223334902325953625, guid: 5c9c3d63a1f01ee43a0606a98a1ffff1,
+    type: 3}
+  m_PrefabInstance: {fileID: 4223334902780420659}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1623391862921093687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -782,6 +789,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4223334902325953625, guid: 5c9c3d63a1f01ee43a0606a98a1ffff1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4223334902325953629, guid: 5c9c3d63a1f01ee43a0606a98a1ffff1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -836,6 +848,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4223334902325953628, guid: 5c9c3d63a1f01ee43a0606a98a1ffff1,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 755589333}
+    - target: {fileID: 4223334902325953603, guid: 5c9c3d63a1f01ee43a0606a98a1ffff1,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c9c3d63a1f01ee43a0606a98a1ffff1, type: 3}

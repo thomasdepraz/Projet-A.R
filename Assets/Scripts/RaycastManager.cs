@@ -13,11 +13,14 @@ public class RaycastManager : MonoBehaviour
     public RaycastHit hit;
     public GameObject batteryFill;
     private BatteryFill fill;
+    public GameObject enemy;
+    private EnemyController enemyController;
 
     // Start is called before the first frame update
     void Start()
     {
         fill = batteryFill.GetComponent<BatteryFill>();
+        enemyController = enemy.GetComponent<EnemyController>();
     }
 
     // Update is called once per frame
@@ -39,11 +42,14 @@ public class RaycastManager : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, detectDistance, Enemy))
         {
             //L'ennemi se stop, la batterie descend plus vite, incrémenter un compteur l'ennemi se tp 
+            enemyController.canMove = false;
             Debug.Log("Enemy arreté");
         }
         else
         {
-            
+            enemyController.canMove = true;
+            Debug.Log("Enemy en mouvement");
+
         }
     }
 }

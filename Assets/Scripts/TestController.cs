@@ -141,7 +141,7 @@ public class TestController : MonoBehaviour
                 distanceToCamera = Vector3.Distance(FirstPersonCamera.transform.position, NewPlanes[i].CenterPose.position);
                 List<Anchor> anchors = new List<Anchor>();
                 NewPlanes[i].GetAllAnchors(anchors);
-                if (distanceToCamera < 3f && Random.Range(0f, 1f) > 0.8f && anchors.Count < 2)                                                                                                                                                                           
+                if (distanceToCamera < 2f && Random.Range(0f, 1f) > 0.8f && anchors.Count < 2)                                                                                                                                                                           
                 {
                     var anchor = NewPlanes[i].CreateAnchor(NewPlanes[i].CenterPose);
                     anchor.gameObject.transform.SetParent(virtualWorldRoot.transform);

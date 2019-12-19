@@ -24,9 +24,13 @@ public class EnemyController : MonoBehaviour
     {
         playerPos = controller.FirstPersonCamera.transform.position;
 
-        if (canMove == true)
+        if (canMove)
         {
             Movement(playerPos - transform.position);
+        }
+        else if (!canMove)
+        {
+            enemyRgb.velocity = Vector3.zero;
         }
 
     }
