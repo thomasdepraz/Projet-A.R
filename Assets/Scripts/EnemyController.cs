@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     public bool canMove;
     public float speed;
     public Rigidbody enemyRgb;
+    public GameObject firstPersonCamera;
 
 
 
@@ -33,6 +34,8 @@ public class EnemyController : MonoBehaviour
             enemyRgb.velocity = Vector3.zero;
         }
 
+        gameObject.transform.LookAt(firstPersonCamera.transform.position);
+        gameObject.transform.Rotate(new Vector3(-90f, 0f, 0f));
     }
 
     public void Movement(Vector3 targetPos)

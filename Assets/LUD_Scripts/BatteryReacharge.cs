@@ -18,10 +18,14 @@ public class BatteryReacharge : MonoBehaviour
     {
         while(recharge)
         {
-            if (Fill.fillAmount < 1 && recharge)
+            if (Fill.fillAmount <= 1)
             {
                 Fill.fillAmount += 0.07f;
                 yield return new WaitForSecondsRealtime(0.3f);
+            }
+            else
+            {
+                Fill.fillAmount = 1;
             }
         } 
     }

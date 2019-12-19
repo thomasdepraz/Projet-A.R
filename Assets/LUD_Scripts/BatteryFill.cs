@@ -43,10 +43,14 @@ public class BatteryFill : MonoBehaviour
     {
         while(!DontFill)
         {
-            if (Fill.fillAmount > 0)
+            if (Fill.fillAmount >= 0)
             {
                 Fill.fillAmount -= 0.05f;
                 yield return new WaitForSeconds(3);
+            }
+            else
+            {
+                Fill.fillAmount = 0;
             }
         }
     }

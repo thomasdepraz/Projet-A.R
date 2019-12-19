@@ -13,17 +13,6 @@ public class TestController : MonoBehaviour
     public Camera FirstPersonCamera;
 
     /// <summary>
-    /// A prefab to place when a raycast from a user touch hits a vertical plane.
-    /// </summary>
-    public GameObject GameObjectVerticalPlanePrefab;
-
-    /// <summary>
-    /// A prefab to place when a raycast from a user touch hits a horizontal plane.
-    /// </summary>
-    public GameObject GameObjectHorizontalPlanePrefab;
-
-
-    /// <summary>
     /// The rotation in degrees need to apply to prefab when it is placed.
     /// </summary>
     private const float k_PrefabRotation = 180.0f;
@@ -36,7 +25,6 @@ public class TestController : MonoBehaviour
 
     private List<DetectedPlane> NewPlanes = new List<DetectedPlane>();
 
-    public GameObject ground;
     public ARCoreSessionConfig config;
     private bool groundCreated = false;
     public GameObject virtualWorldRoot;
@@ -61,10 +49,8 @@ public class TestController : MonoBehaviour
         FindGround();
         if(groundCreated && !coroutineStarted)
         {
-            //StartCoroutine(CreateBatteries());
             coroutineStarted = true;
-            StartCoroutine(CreateBattery());
-            
+            StartCoroutine(CreateBattery());    
         }
 
     }
@@ -84,53 +70,6 @@ public class TestController : MonoBehaviour
         }  
     }
 
-    IEnumerator CreateBatteries()
-    {
-         
-        if(Frame.Raycast(FirstPersonCamera.transform.position, FirstPersonCamera.transform.forward, out hitResult, 10f, filter))
-        {
-            if(Random.Range(0f, 1f) > 0.3 && hitResult.Trackable is DetectedPlane)
-            {
-                GameObject battery;
-                if (hitResult.Trackable is DetectedPlane)
-                {
-                    DetectedPlane detectedPlane = hitResult.Trackable as DetectedPlane;
-                    if (detectedPlane.PlaneType == DetectedPlaneType.Vertical)
-                    {
-                        battery = GameObjectVerticalPlanePrefab;
-                    }
-                    else
-                    {
-                        battery = GameObjectHorizontalPlanePrefab;
-                    }
-                }
-                else
-                {
-                    battery = GameObjectHorizontalPlanePrefab;
-                }
-
-                // Instantiate prefab at the hit pose.
-                var gameObject = Instantiate(battery, hitResult.Pose.position, hitResult.Pose.rotation);
-
-                // Compensate for the hitPose rotation facing away from the raycast (i.e.
-                // camera).
-                gameObject.transform.Rotate(0, k_PrefabRotation, 0, Space.Self);
-
-                // Create an anchor to allow ARCore to track the hitpoint as understanding of
-                // the physical world evolves.
-                var anchor = hitResult.Trackable.CreateAnchor(hitResult.Pose);
-
-                // Make game object a child of the anchor.
-                gameObject.transform.parent = anchor.transform;
-            }
-        }
-        else
-        {
-            Debug.Log("Hit nothing");
-        }
-        yield return new WaitForSecondsRealtime(2f);
-        StartCoroutine(CreateBatteries());
-    }
 
     IEnumerator CreateBattery()
     {
