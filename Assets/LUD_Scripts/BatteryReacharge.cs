@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BatteryReacharge : MonoBehaviour
 {
-    bool recharge;
+    public bool recharge;
     public GameObject raycastManager;
     public Image Fill;
     // Start is called before the first frame update
@@ -14,20 +14,15 @@ public class BatteryReacharge : MonoBehaviour
         StartCoroutine(Recharge());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        recharge = raycastManager.GetComponent<RaycastManager>().Recharge;
-    }
-
     IEnumerator Recharge()
     {
-        if (Fill.fillAmount < 1 && recharge==true)
+        while(recharge)
         {
-            Fill.fillAmount += 0.05f;
-            yield return null;
-            StartCoroutine(Recharge());
-        }
-        
+            if (Fill.fillAmount < 1 && recharge)
+            {
+                Fill.fillAmount += 0.07f;
+                yield return new WaitForSecondsRealtime(0.3f);
+            }
+        } 
     }
 }

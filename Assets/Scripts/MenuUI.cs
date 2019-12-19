@@ -28,6 +28,6 @@ public class MenuUI : MonoBehaviour
     }
     void _start()
     {
-        SceneManager.LoadScene("LUD_Scene");
+        SceneManager.LoadScene("THD_TestScene");
     }
 }
