@@ -14,6 +14,7 @@ public class RaycastManager : MonoBehaviour
     public RaycastHit hit;
     public GameObject batteryFill;
     private BatteryFill fill;
+    private BatteryReacharge Reacharge;
     public GameObject enemy;
     private EnemyController enemyController;
 
@@ -22,6 +23,7 @@ public class RaycastManager : MonoBehaviour
     {
         fill = batteryFill.GetComponent<BatteryFill>();
         enemyController = enemy.GetComponent<EnemyController>();
+        Reacharge = batteryFill.GetComponent<BatteryReacharge>();
     }
 
     // Update is called once per frame
