@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BatteryManager : MonoBehaviour
 {
     public float energy;
+    public float baseEnergy;
     public GameObject batteryFill;
     private BatteryFill fill;
+    public Image energyBar;
     void Start()
     {
         fill = batteryFill.GetComponent<BatteryFill>();
@@ -20,7 +23,9 @@ public class BatteryManager : MonoBehaviour
             Debug.Log("All energy transferred");
             Destroy(gameObject);
         }
+        energyBar.fillAmount = energy / baseEnergy;
     }
+
 
     public void EnergyTransfer()
     {
