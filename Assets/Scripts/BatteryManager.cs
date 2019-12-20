@@ -10,12 +10,17 @@ public class BatteryManager : MonoBehaviour
     private BatteryFill fill;
     public GameObject barFill;
     private Image barFillImage;
+
+    private void Awake()
+    {
+        
+
+    }
     void Start()
     {
-        fill = batteryFill.GetComponent<BatteryFill>();
-        barFill = GameObject.FindGameObjectWithTag("BatteryUI");
-        barFillImage = barFill.GetComponent<Image>();
-        barFill.transform.parent.gameObject.SetActive(false);
+        
+        //barFill.transform.parent.gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -32,6 +37,9 @@ public class BatteryManager : MonoBehaviour
 
     public void EnergyTransfer()
     {
+        barFill = GameObject.Find("HPFULL");
+        barFillImage = barFill.GetComponent<Image>();
+        fill = batteryFill.GetComponent<BatteryFill>();
         gameObject.GetComponent<AudioSource>().mute = false;
         barFillImage.fillAmount = energy / 100;
         energy-- ;
