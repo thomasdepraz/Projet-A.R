@@ -888,6 +888,11 @@ PrefabInstance:
       propertyPath: batteryFillUI
       value: 
       objectReference: {fileID: 4990145231234517497}
+    - target: {fileID: 2046520207501081474, guid: dd3d900c54cb80242b97cb58d9a19f2c,
+        type: 3}
+      propertyPath: detectDistance
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd3d900c54cb80242b97cb58d9a19f2c, type: 3}
 --- !u!1001 &2258367450010854318
@@ -911,11 +916,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: BatteryUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 6491898854584356559, guid: 312599ef84d11ef4dadc2173ff45cf53,
-        type: 3}
-      propertyPath: m_PreserveAspect
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6491898854584356558, guid: 312599ef84d11ef4dadc2173ff45cf53,
         type: 3}
@@ -1021,6 +1021,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6491898854584356559, guid: 312599ef84d11ef4dadc2173ff45cf53,
+        type: 3}
+      propertyPath: m_PreserveAspect
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 312599ef84d11ef4dadc2173ff45cf53, type: 3}

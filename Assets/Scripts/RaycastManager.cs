@@ -31,7 +31,7 @@ public class RaycastManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out hit, detectDistance, Battery))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, detectDistance * 2, Battery))
         {
             batteryFillUI.SetActive(true);
             hit.collider.gameObject.GetComponent<BatteryManager>().EnergyTransfer();//La charge de la batterie descend

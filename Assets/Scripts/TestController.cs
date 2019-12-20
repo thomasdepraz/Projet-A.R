@@ -39,6 +39,7 @@ public class TestController : MonoBehaviour
     public GameObject scroll;
 
     public float elapsedTime;
+    public float startTime;
     public Text timer;
     string sec;
 
@@ -49,13 +50,13 @@ public class TestController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        startTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        elapsedTime = Time.time;
+        elapsedTime = Time.time - startTime;
         elapsedTime = Mathf.Round(elapsedTime);
         sec = elapsedTime == 1 ? " second" : " seconds";
         timer.text = elapsedTime.ToString() + sec;
