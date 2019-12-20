@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ManipulationSystem
   - Controller
+  - Ennemy
   layers:
   - Default
   - TransparentFX

@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/THD_TestScene.unity
     guid: 3afaee92d6f0102439f50c6a965fc5bb
+  - enabled: 1
+    path: Assets/_Scenes/Lose.unity
+    guid: dcdb03f5873388441a64384cdd842169
   m_configObjects: {}
