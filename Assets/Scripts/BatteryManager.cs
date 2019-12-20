@@ -25,12 +25,14 @@ public class BatteryManager : MonoBehaviour
         {
             Debug.Log("All energy transferred");
             Destroy(gameObject);
+            gameObject.GetComponent<AudioSource>().mute = true;
         }   
     }
 
 
     public void EnergyTransfer()
     {
+        gameObject.GetComponent<AudioSource>().mute = false;
         barFillImage.fillAmount = energy / 100;
         energy-- ;
         Debug.Log(energy);

@@ -59,10 +59,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energy: 100
-  baseEnergy: 0
   batteryFill: {fileID: 1320406576025969336, guid: 570d55c92fde617419090bdd75f53e1e,
     type: 3}
-  energyBar: {fileID: 0}
+  barFill: {fileID: 0}
 --- !u!1 &4812064767019525472
 GameObject:
   m_ObjectHideFlags: 0

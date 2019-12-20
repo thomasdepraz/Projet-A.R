@@ -42,6 +42,10 @@ public class TestController : MonoBehaviour
     public Text timer;
     string sec;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     // Start is called before the first frame update
     void Start()
     {
