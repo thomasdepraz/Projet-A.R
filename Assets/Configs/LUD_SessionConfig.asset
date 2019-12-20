@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LUD_SessionConfig
   m_EditorClassIdentifier: 
   MatchCameraFramerate: 1
-  PlaneFindingMode: 2
+  PlaneFindingMode: 1
   LightEstimationMode: 3
   EnableCloudAnchor: 0
   AugmentedImageDatabase: {fileID: 0}

@@ -34,7 +34,8 @@ public class TestController : MonoBehaviour
     private float detectDistance = 10f;
     private float distanceToCamera;
     private bool coroutineStarted = false;
-    public GameObject battery; 
+    public GameObject battery;
+    public GameObject scroll;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +51,8 @@ public class TestController : MonoBehaviour
         if(groundCreated && !coroutineStarted)
         {
             coroutineStarted = true;
-            StartCoroutine(CreateBattery());    
+            StartCoroutine(CreateBattery());
+            //StartCoroutine(CreateScrolls());
         }
 
     }
@@ -80,17 +82,45 @@ public class TestController : MonoBehaviour
                 distanceToCamera = Vector3.Distance(FirstPersonCamera.transform.position, NewPlanes[i].CenterPose.position);
                 List<Anchor> anchors = new List<Anchor>();
                 NewPlanes[i].GetAllAnchors(anchors);
-                if (distanceToCamera < 2f && Random.Range(0f, 1f) > 0.8f && anchors.Count < 2)                                                                                                                                                                           
+                if (distanceToCamera < 2f && Random.Range(0f, 1f) > 0.9f && anchors.Count < 2)                                                                                                                                                                           
                 {
                     var anchor = NewPlanes[i].CreateAnchor(NewPlanes[i].CenterPose);
                     anchor.gameObject.transform.SetParent(virtualWorldRoot.transform);
-                    GameObject gamebject = Instantiate(battery, anchor.transform);
+                    if (anchor.transform.childCount == 0)
+                    {
+                        GameObject gameobject = Instantiate(battery, anchor.transform);
+                    }
                 }
                 anchors.Clear();
 
             }
-            yield return new WaitForSecondsRealtime(2f);
+            yield return new WaitForSecondsRealtime(2f);    
         }  
+    }
+
+    IEnumerator CreateScrolls()
+    {
+        while (coroutineStarted)
+        {
+            for (int i = 0; i < NewPlanes.Count; i++)
+            {
+                distanceToCamera = Vector3.Distance(FirstPersonCamera.transform.position, NewPlanes[i].CenterPose.position);
+                List<Anchor> anchors = new List<Anchor>();
+                NewPlanes[i].GetAllAnchors(anchors);
+                if (distanceToCamera < 2f && Random.Range(0f, 1f) > 0.9f && anchors.Count < 2 && NewPlanes[i].PlaneType == DetectedPlaneType.HorizontalUpwardFacing) ;
+                {
+                    var anchor = NewPlanes[i].CreateAnchor(NewPlanes[i].CenterPose);
+                    anchor.gameObject.transform.SetParent(virtualWorldRoot.transform);
+                    if(anchor.transform.childCount == 0)
+                    {
+                        GameObject gamebject = Instantiate(scroll, anchor.transform);
+                    }
+                }
+                anchors.Clear();
+
+            }
+            yield return new WaitForSecondsRealtime(5f);
+        }
     }
         
 

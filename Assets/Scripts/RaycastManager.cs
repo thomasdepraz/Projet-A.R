@@ -15,6 +15,8 @@ public class RaycastManager : MonoBehaviour
     private BatteryReacharge Reacharge;
     public GameObject enemy;
     private EnemyController enemyController;
+    private float teleportCooldown;
+    public GameObject batteryFillUI;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,7 @@ public class RaycastManager : MonoBehaviour
         Reacharge = batteryFill.GetComponent<BatteryReacharge>();
 
         enemyController = enemy.GetComponent<EnemyController>();
+        teleportCooldown = 0;
     }
 
     // Update is called once per frame
@@ -30,6 +33,7 @@ public class RaycastManager : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, transform.forward, out hit, detectDistance, Battery))
         {
+            batteryFillUI.SetActive(true);
             hit.collider.gameObject.GetComponent<BatteryManager>().EnergyTransfer();//La charge de la batterie descend
 
             fill.DontFill = true;//La charge du telephone ne baisse plus; 
@@ -37,11 +41,10 @@ public class RaycastManager : MonoBehaviour
 
             Reacharge.recharge = true; //La charge du telephone augmente; 
             Reacharge.enabled = true;
-            
-            Debug.Log("La batterie se recharge");
         }
         else
         {
+            batteryFillUI.SetActive(false);
             fill.DontFill = false;//La charge du telephone baisse;
             fill.enabled = true;
 
@@ -54,12 +57,19 @@ public class RaycastManager : MonoBehaviour
             //L'ennemi se stop, la batterie descend plus vite, incrémenter un compteur l'ennemi se tp 
             enemyController.canMove = false;
             Debug.Log("Enemy arreté");
+            teleportCooldown++;
+            if(teleportCooldown > 300)
+            {
+                enemy.transform.position = (transform.position - enemy.transform.position) * 3;
+            }
+            fill.fillAmount = 0.07f;
         }
         else
         {
+            teleportCooldown = 0;
             enemyController.canMove = true;
             Debug.Log("Enemy en mouvement");
-
+            fill.fillAmount = 0.05f;
         }
     }
 }

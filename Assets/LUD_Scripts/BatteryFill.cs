@@ -8,19 +8,27 @@ public class BatteryFill : MonoBehaviour
     
     public Image Panel;
     public Image Fill;
-    private float fillAmount = 0.05f;
+    public float fillAmount;
     [HideInInspector] public bool DontFill = false;
     
     public GameObject raycastManager;
 
+    //Filter Color
+    Color panelColor;
+    float alpha;
+    float r ; 
+    float g ;
+    float b ;
     void Start()
     {
-        //StartCoroutine(_BatteryGoDown());
+        panelColor = Panel.color;
     }
 
     public void OnEnable()
     {
+        fillAmount = 0.05f;
         StartCoroutine(_BatteryGoDown());
+        
     }
     // Update is called once per frame
     void Update()
@@ -36,7 +44,7 @@ public class BatteryFill : MonoBehaviour
         }
         else
         {
-            //reset colors
+            Panel.color = panelColor;
         }
     }
     IEnumerator _BatteryGoDown()
@@ -45,7 +53,7 @@ public class BatteryFill : MonoBehaviour
         {
             if (Fill.fillAmount >= 0)
             {
-                Fill.fillAmount -= 0.05f;
+                Fill.fillAmount -= fillAmount;
                 yield return new WaitForSeconds(3);
             }
             else
@@ -55,8 +63,4 @@ public class BatteryFill : MonoBehaviour
         }
     }
 
-    private void PanelColor()
-    {
-
-    }
 }

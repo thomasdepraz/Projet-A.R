@@ -21,7 +21,7 @@ public class BatteryReacharge : MonoBehaviour
             if (Fill.fillAmount <= 1)
             {
                 Fill.fillAmount += 0.07f;
-                yield return new WaitForSecondsRealtime(0.3f);
+                yield return new WaitForSecondsRealtime(0.1f);
             }
             else
             {

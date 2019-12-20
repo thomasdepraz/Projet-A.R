@@ -116,7 +116,7 @@ MonoBehaviour:
   controller: {fileID: 0}
   playerPos: {x: 0, y: 0, z: 0}
   canMove: 0
-  speed: 15
+  speed: 25
   enemyRgb: {fileID: 4509499679843151855}
   firstPersonCamera: {fileID: 2045587468418495265, guid: dd3d900c54cb80242b97cb58d9a19f2c,
     type: 3}
