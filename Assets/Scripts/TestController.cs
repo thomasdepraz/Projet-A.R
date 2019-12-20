@@ -4,6 +4,7 @@ using GoogleARCore;
 using GoogleARCore.Examples.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class TestController : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class TestController : MonoBehaviour
     private bool coroutineStarted = false;
     public GameObject battery;
     public GameObject scroll;
+
+    public float elapsedTime;
+    public Text timer;
+    string sec;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +51,11 @@ public class TestController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        elapsedTime = Time.time;
+        elapsedTime = Mathf.Round(elapsedTime);
+        sec = elapsedTime == 1 ? " second" : " seconds";
+        timer.text = elapsedTime.ToString() + sec;
+        
         _UpdateApplicationLifecycle();
 
         FindGround();
